@@ -13,9 +13,24 @@ namespace AutoInstallAFT
             InitializeComponent();
         }
 
-        public void unZip(string zippath)
+        public void Runtools()
         {
-            string commmand = $"x -aoa {zippath} -o{path}";
+            try
+            {
+                Process p =Process.Start("FastSegatools With GUI");
+                p.WaitForExit();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("fastsegatools 不存在，请下载并放置在本程序目录");
+                throw;
+            }
+        }
+
+        public void UnZip(string zippath)
+        {
+            string commmand = $"x -aoa {zippath} -o{path}";   //覆盖所有
+            //string commmand = $"x -aos {zippath} -o{path}";   //跳过已有文件
             var process = new Process
             {
                 StartInfo =
@@ -36,9 +51,11 @@ namespace AutoInstallAFT
             unzip.Visible = !unzip.Visible;
             pathBox.Visible = !pathBox.Visible;
             selectPath.Visible = !selectPath.Visible;
+            MessageBox.Show("安装完成，请在新窗口中完成联机服务器设置");
+            Runtools();
         }
 
-        private void selectPath_Click(object sender, EventArgs e)
+        private void SelectPath_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog
             {
@@ -49,7 +66,7 @@ namespace AutoInstallAFT
             path = pathBox.Text;
         }
 
-        private void unzip_Click(object sender, EventArgs e)
+        private void Unzip_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(pathBox.Text))
             {
@@ -61,7 +78,7 @@ namespace AutoInstallAFT
                         logBox.AppendText("已检测到压缩包:" + files[i] + Environment.NewLine);
                     }
                     string covfilepaht = $"\"{files[0]}\"";
-                    unZip(covfilepaht);
+                    UnZip(covfilepaht);
                 }
                 catch (Exception)
                 {

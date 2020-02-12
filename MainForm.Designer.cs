@@ -59,7 +59,7 @@
             this.selectPath.TabIndex = 2;
             this.selectPath.Text = "...";
             this.selectPath.UseVisualStyleBackColor = true;
-            this.selectPath.Click += new System.EventHandler(this.selectPath_Click);
+            this.selectPath.Click += new System.EventHandler(this.SelectPath_Click);
             // 
             // unzip
             // 
@@ -69,7 +69,7 @@
             this.unzip.TabIndex = 3;
             this.unzip.Text = "安装";
             this.unzip.UseVisualStyleBackColor = true;
-            this.unzip.Click += new System.EventHandler(this.unzip_Click);
+            this.unzip.Click += new System.EventHandler(this.Unzip_Click);
             // 
             // logBox
             // 
