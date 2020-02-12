@@ -19,6 +19,7 @@ namespace AutoInstallAFT
             {
                 Process p =Process.Start("FastSegatools With GUI");
                 p.WaitForExit();
+                Close();
             }
             catch (Exception)
             {
@@ -29,13 +30,13 @@ namespace AutoInstallAFT
 
         public void UnZip(string zippath)
         {
-            string commmand = $"x -aoa {zippath} -o{path}";   //覆盖所有
-            //string commmand = $"x -aos {zippath} -o{path}";   //跳过已有文件
+            //string commmand = $"x -aoa {zippath} -o{path}";   //覆盖所有
+            string commmand = $"x -aos {zippath} -o{path}";   //跳过已有文件
             var process = new Process
             {
                 StartInfo =
                 {
-                    FileName = @"Res\7-Zip\7z.exe",
+                    FileName = @"Res\7z.exe",
                     Arguments = commmand,
                     WindowStyle = ProcessWindowStyle.Normal,
                     CreateNoWindow = false,
@@ -73,11 +74,7 @@ namespace AutoInstallAFT
                 try
                 {
                     var files = Directory.GetFiles("Res");
-                    for (int i = 0; i < files.Length; i++)
-                    {
-                        logBox.AppendText("已检测到压缩包:" + files[i] + Environment.NewLine);
-                    }
-                    string covfilepaht = $"\"{files[0]}\"";
+                    string covfilepaht = $"\"{files[5]}\"";     //往后靠以免选择到exe
                     UnZip(covfilepaht);
                 }
                 catch (Exception)
