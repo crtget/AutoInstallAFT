@@ -76,6 +76,7 @@ namespace AutoInstallAFT
             pathBox.Visible = !pathBox.Visible;
             selectPath.Visible = !selectPath.Visible;
             MessageBox.Show("安装完成，请在新窗口中完成联机服务器设置");
+            File.Copy("AFT_Online_Stater.exe", path + @"\Project DIVA ARCADE FT\AFT在线模式启动器.exe", true);
             Runtools();
         }
 
