@@ -1,6 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections;
 using System.IO;
+using System.Diagnostics;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 
 namespace AutoInstallAFT
@@ -11,6 +15,25 @@ namespace AutoInstallAFT
         public MainForm()
         {
             InitializeComponent();
+        }
+
+        public void Md5_reckon(string filepath,string s_md5) //md5校验，未测试
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            FileStream fs = new FileStream(filepath,FileMode.Open);
+            byte[] fileBytes = md5.ComputeHash(fs);
+            fs.Close();
+            fs.Dispose();
+            GC.Collect();
+            StringBuilder fileMD5 = new StringBuilder();
+            for (int i = 0; i < fileBytes.Length; i++)
+            {
+                fileMD5.Append(fileBytes[i].ToString("x2"));
+            }
+            if (string.Compare(fileMD5.ToString(),s_md5) != 0)
+            {
+                MessageBox.Show(filepath + "已损坏，请重新下载");
+            }
         }
 
         public void Runtools()
@@ -74,12 +97,15 @@ namespace AutoInstallAFT
                 try
                 {
                     var files = Directory.GetFiles("Res");
-                    string covfilepaht = $"\"{files[5]}\"";     //往后靠以免选择到exe
+                    ArrayList al = new ArrayList(files);
+                    al.RemoveAt(files.ToList().IndexOf("7z.exe"));
+                    files = (string[]) al.ToArray(typeof(string));
+                    string covfilepaht = $"\"{files[0]}\"";
                     UnZip(covfilepaht);
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("资源文件丢失，请勿删除Res文件夹");
+                    MessageBox.Show("资源文件丢失");
                     throw;
                 }
             }
