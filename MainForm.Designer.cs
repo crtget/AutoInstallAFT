@@ -94,7 +94,7 @@
             this.Controls.Add(this.pathBox);
             this.Name = "MainForm";
             this.ShowIcon = false;
-            this.Text = "Auto Install AFT";
+            this.Text = "Auto Install AFT 本程序免费，禁止售卖";
             this.ResumeLayout(false);
             this.PerformLayout();
 
