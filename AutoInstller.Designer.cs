@@ -82,7 +82,7 @@
             this.logBox.Size = new System.Drawing.Size(364, 93);
             this.logBox.TabIndex = 4;
             // 
-            // MainForm
+            // AutoInstller
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -92,8 +92,9 @@
             this.Controls.Add(this.selectPath);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pathBox);
-            this.Name = "MainForm";
+            this.Name = "AutoInstller";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Auto Install AFT 本程序免费，禁止售卖";
             this.ResumeLayout(false);
             this.PerformLayout();

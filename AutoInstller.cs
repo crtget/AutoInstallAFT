@@ -10,6 +10,7 @@ namespace AutoInstallAFT
     public partial class AutoInstller : Form
     {
         public string path;
+        public static string divapath;
         public AutoInstller()
         {
             InitializeComponent();
@@ -34,23 +35,6 @@ namespace AutoInstallAFT
             }
         }
 
-        public void Runtools()
-        {
-            /*
-            try
-            {
-                Process p =Process.Start("FastSegatools With GUI");
-                p.WaitForExit();
-                Close();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("FastSegattools 不存在，请下载并放置在本程序目录");
-                throw;
-            }*/
-            FastSegaTools fst = new FastSegaTools();
-            fst.ShowDialog();
-        }
 
         public void UnZip(string zippath)
         {
@@ -78,8 +62,10 @@ namespace AutoInstallAFT
             selectPath.Visible = !selectPath.Visible;
             MessageBox.Show("解压完成，请在FastSegatools中完成联机服务器设置");
             File.Copy("AFT_Online_Stater.exe", path + @"Project DIVA ARCADE FT\AFT在线模式启动器.exe", true);
+            FastSegaTools fst = new FastSegaTools();
+            fst.ShowDialog(this);
             Process.Start(pathBox.Text);
-            Runtools();
+            logBox.AppendText("安装完成，敬请开始您的DIVA之旅！" + Environment.NewLine);
         }
 
         private void SelectPath_Click(object sender, EventArgs e)
@@ -88,13 +74,23 @@ namespace AutoInstallAFT
             {
                 ShowNewFolderButton = true
             };
+
             fbd.ShowDialog();
             pathBox.Text = Directory.GetDirectoryRoot(fbd.SelectedPath) + "Project DIVA ARCADE FT";
-            path = Directory.GetDirectoryRoot(fbd.SelectedPath);
         }
 
         private void Unzip_Click(object sender, EventArgs e)
         {
+
+            if (pathBox.Text.Trim() == "")
+            {
+                MessageBox.Show(this, "请选择安装路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            divapath = pathBox.Text;
+            path = Directory.GetDirectoryRoot(pathBox.Text);
+
             if (!string.IsNullOrWhiteSpace(path))
             {
                 try
