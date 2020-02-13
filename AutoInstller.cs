@@ -60,7 +60,7 @@ namespace AutoInstallAFT
             {
                 StartInfo =
                 {
-                    FileName = @"Res\7z.exe",
+                    FileName =  Directory.GetCurrentDirectory() + @"\Res\7z.exe",
                     Arguments = commmand,
                     WindowStyle = ProcessWindowStyle.Normal,
                     CreateNoWindow = false,
@@ -78,6 +78,7 @@ namespace AutoInstallAFT
             selectPath.Visible = !selectPath.Visible;
             MessageBox.Show("解压完成，请在FastSegatools中完成联机服务器设置");
             File.Copy("AFT_Online_Stater.exe", path + @"Project DIVA ARCADE FT\AFT在线模式启动器.exe", true);
+            Process.Start(pathBox.Text);
             Runtools();
         }
 
@@ -94,7 +95,7 @@ namespace AutoInstallAFT
 
         private void Unzip_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(pathBox.Text))
+            if (!string.IsNullOrWhiteSpace(path))
             {
                 try
                 {
