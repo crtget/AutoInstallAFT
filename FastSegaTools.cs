@@ -6,6 +6,9 @@ using Microsoft.Win32;
 using System.Net.NetworkInformation;
 using AutoInstallAFT.Properties;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
 
 namespace AutoInstallAFT
 {
@@ -27,6 +30,17 @@ namespace AutoInstallAFT
         public FastSegaTools()
         {
             InitializeComponent();
+        }
+
+        private void FastSegaTools_Load(object sender, EventArgs e)
+        {
+            var ips = GetLocalIPs();
+
+            if (ips != null)
+            {
+                iplistBox.Items.AddRange(ips);
+                iplistBox.SelectedIndex = 0;
+            }
         }
 
         private void Setini_Click(object sender, EventArgs e)
@@ -131,6 +145,59 @@ namespace AutoInstallAFT
             int delay = (Int32)o;
             serverLabel.Text = string.Format("服务器地址：{0}ms", delay);
         }
+
+        private void iplistBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            subnetBox.Text = iplistBox.Text;
+        }
+
+        public static string[] GetLocalIPs()
+        {
+            try
+            {
+
+                NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+                var result = new List<string>();
+
+                foreach (var net in nics)
+                {
+
+
+                    IPInterfaceProperties ipps = net.GetIPProperties();
+                    var ips = ipps.UnicastAddresses;
+
+                    foreach (var ua in ips)
+                    {
+                        if ((ua.Address.AddressFamily == AddressFamily.InterNetwork) && (ua.PrefixOrigin.ToString() == "Dhcp" || ua.PrefixOrigin.ToString() == "Manual"))
+                        {
+                            var ip = ua.Address.GetAddressBytes();
+                            var mask = ua.IPv4Mask.GetAddressBytes();
+
+                            for (var i = 0; i < ip.Length; i++)
+                            {
+                                ip[i] &= mask[i];
+                            }
+
+                            IPAddress addr = new IPAddress(ip);
+                            result.Add(addr.ToString());
+                        }
+
+                    }
+
+
+
+                }
+
+                return result.ToArray();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("获取IP地址出错！" + ex.Message);
+                return null;
+            }
+
+        }
+
 
 
     }

@@ -61,6 +61,16 @@ namespace AutoInstallAFT.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] launcher {
+            get {
+                object obj = ResourceManager.GetObject("launcher", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 [vfs]
         ///; Insert the path to the game AMFS directory here (contains ICF1 and ICF2)
         ///amfs=C:\
@@ -75,9 +85,7 @@ namespace AutoInstallAFT.Properties {
         ///default=localhost
         ///
         ///[ds]
-        ///; Region code on the emulated AMEX board DS EEPROM.
-        ///; 1: Japan
-        ///; [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///; Region code on the emulated AMEX board DS EEPROM [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string segatools_ini {
             get {

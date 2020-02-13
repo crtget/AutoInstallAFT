@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using AutoInstallAFT.Properties;
 
 namespace AutoInstallAFT
 {
@@ -61,12 +62,17 @@ namespace AutoInstallAFT
             pathBox.Visible = !pathBox.Visible;
             selectPath.Visible = !selectPath.Visible;
             MessageBox.Show("解压完成，请在FastSegatools中完成联机服务器设置");
-            File.Copy("AFT_Online_Stater.exe", path + @"Project DIVA ARCADE FT\AFT在线模式启动器.exe", true);
+            byte[] ba = AutoInstallAFT.Properties.Resources.launcher;
+            FileStream fs = new FileStream(path + @"Project DIVA ARCADE FT\AFT在线模式启动器.exe", FileMode.Create);
+            fs.Write(ba, 0, ba.Length);
+            fs.Close();
             FastSegaTools fst = new FastSegaTools();
             fst.ShowDialog(this);
             Process.Start(pathBox.Text);
             logBox.AppendText("安装完成，敬请开始您的DIVA之旅！" + Environment.NewLine);
+            
         }
+
 
         private void SelectPath_Click(object sender, EventArgs e)
         {
@@ -86,6 +92,7 @@ namespace AutoInstallAFT
             {
                 MessageBox.Show(this, "请选择安装路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
+                
             }
 
             divapath = pathBox.Text;
@@ -96,12 +103,12 @@ namespace AutoInstallAFT
                 try
                 {
                     var files = Directory.GetFiles("Res");
-                    string covfilepaht = $"\"{files[5]}\"";
+                    string covfilepaht = $"\"{files[2]}\"";
                     UnZip(covfilepaht);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("资源文件丢失或解压失败,请重新下载或安装7-Zip的依赖库");
+                    MessageBox.Show($"发生错误:{ex.Message}");
                     throw;
                 }
             }

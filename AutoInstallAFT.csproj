@@ -108,5 +108,8 @@
     </Compile>
     <None Include="Resources\segatools.ini" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\AFT_Online_Stater.exe" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
