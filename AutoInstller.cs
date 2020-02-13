@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using System.Diagnostics;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 
 namespace AutoInstallAFT
 {
-    public partial class MainForm : Form
+    public partial class AutoInstller : Form
     {
         public string path;
-        public MainForm()
+        public AutoInstller()
         {
             InitializeComponent();
         }
@@ -38,6 +36,7 @@ namespace AutoInstallAFT
 
         public void Runtools()
         {
+            /*
             try
             {
                 Process p =Process.Start("FastSegatools With GUI");
@@ -46,9 +45,11 @@ namespace AutoInstallAFT
             }
             catch (Exception)
             {
-                MessageBox.Show("fastsegatools 不存在，请下载并放置在本程序目录");
+                MessageBox.Show("FastSegattools 不存在，请下载并放置在本程序目录");
                 throw;
-            }
+            }*/
+            FastSegaTools fst = new FastSegaTools();
+            fst.ShowDialog();
         }
 
         public void UnZip(string zippath)
@@ -75,8 +76,8 @@ namespace AutoInstallAFT
             unzip.Visible = !unzip.Visible;
             pathBox.Visible = !pathBox.Visible;
             selectPath.Visible = !selectPath.Visible;
-            MessageBox.Show("安装完成，请在新窗口中完成联机服务器设置");
-            File.Copy("AFT_Online_Stater.exe", path + @"\Project DIVA ARCADE FT\AFT在线模式启动器.exe", true);
+            MessageBox.Show("解压完成，请在FastSegatools中完成联机服务器设置");
+            File.Copy("AFT_Online_Stater.exe", path + @"Project DIVA ARCADE FT\AFT在线模式启动器.exe", true);
             Runtools();
         }
 
@@ -87,8 +88,8 @@ namespace AutoInstallAFT
                 ShowNewFolderButton = true
             };
             fbd.ShowDialog();
-            pathBox.Text = Directory.GetDirectoryRoot(fbd.SelectedPath);
-            path = pathBox.Text;
+            pathBox.Text = Directory.GetDirectoryRoot(fbd.SelectedPath) + "Project DIVA ARCADE FT";
+            path = Directory.GetDirectoryRoot(fbd.SelectedPath);
         }
 
         private void Unzip_Click(object sender, EventArgs e)
@@ -98,15 +99,12 @@ namespace AutoInstallAFT
                 try
                 {
                     var files = Directory.GetFiles("Res");
-                    ArrayList al = new ArrayList(files);
-                    al.RemoveAt(files.ToList().IndexOf("7z.exe"));
-                    files = (string[]) al.ToArray(typeof(string));
-                    string covfilepaht = $"\"{files[0]}\"";
+                    string covfilepaht = $"\"{files[5]}\"";
                     UnZip(covfilepaht);
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("资源文件丢失");
+                    MessageBox.Show("资源文件丢失或解压失败,请重新下载或安装7-Zip的依赖库");
                     throw;
                 }
             }
